@@ -13,8 +13,8 @@
                   <div class="col-md-4 col-sm-6">
                      <div class="box-portfoli raev-porfolio">
                         <div class="portfoli-hover">
-                           @php  $pro_images =  !empty($port->images ) ?
-                                                 explode(',',$port->images) : array();
+                           @php  $pro_images =  !empty($port->covr ) ?
+                                                 explode(',',$port->covr) : array();
                            @endphp
                            @forelse($pro_images as $key=>$img)
                                @if ($loop->first)

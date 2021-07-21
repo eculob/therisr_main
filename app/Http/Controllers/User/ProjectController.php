@@ -23,7 +23,7 @@ class ProjectController extends Controller
     //add project/portfolio page
     function addproject(Request $request)
     {
-       if($_POST)
+        if($_POST)
         {
           $input = $request->all();
           $removeImage = explode(',', $input['removeImage']);
@@ -39,6 +39,13 @@ class ProjectController extends Controller
                  $removeImage_f[] = $value;
              }
           }
+          if($request->hasfile('covr')){
+            $name = $file->getClientOriginalName();
+            $filename = time() .  '-' . $name;
+            $file->move('assets/project_cover/',$filename);
+
+          }
+
           if($request->hasfile('imagesfinal')){
              foreach ($request->file('imagesfinal') as $key=>$file) {
 
@@ -83,7 +90,7 @@ class ProjectController extends Controller
 
 
             $input['images'] = implode(',', $imagesd);
-            $input['covr'] = implode(',', $imagesd);
+            // $input['covr'] = implode(',', $coversd);
             unset($input['_token']);
             $match_s = array(
                 'user_id' => Auth::user()->id,
@@ -93,7 +100,6 @@ class ProjectController extends Controller
            echo json_encode(array('code'=>200,'message'=>'Saved qwesuccessfully!'));
         }else{
            $data['skills'] = Skills::all();
-           dd($data);
            return view('user.freelancer.project.addproject')->with($data);
         }
     }

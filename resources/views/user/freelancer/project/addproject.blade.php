@@ -43,9 +43,9 @@
 						<div class="addCoverImg">
 							<label class="covr-label">
 								<h4> Add Cover Image </h4>
-								<input type="file" multiple="multiple" name="covr]" id="covr"
-								 style="width:0px; height:0px; opacity:0; visibility:hidden;" />
 							</label>
+							<input type="file" multiple="multiple" name="covr" id="covr"
+								 style="width:0px; height:0px; opacity:0; visibility:hidden;" />
 						</div>
 					</div>
 					<div class="col-md-5">
