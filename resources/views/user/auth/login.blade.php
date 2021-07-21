@@ -16,7 +16,7 @@
                                   @csrf
                                     <div class="form-group">
                                          <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                          name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                          name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Username" autofocus>
 
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -25,7 +25,8 @@
                                         @enderror
                                     </div>
                                     <div class="form-group mb-0">
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                        <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
 
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
@@ -83,5 +84,17 @@
             </div>
         </div>
     </section>
+    <script>
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+            input.attr("type", "text");
+            } else {
+            input.attr("type", "password");
+            }
+        });
+    </script>
 
 @endsection

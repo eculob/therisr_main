@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
                $settings->with('settings', DB::table('settings')->first());
             });
        }
+       Schema::defaultStringLength(191);
 
     }
 }

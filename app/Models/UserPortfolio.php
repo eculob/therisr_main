@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Models;
 
 
@@ -11,7 +11,7 @@ class UserPortfolio extends Model
     protected $table ="users_portfolio";
 
     protected $fillable = [
-        'user_id', 'title', 'role', 'skills', 'description', 'link', 'images'
+        'user_id', 'title', 'role', 'skills', 'description', 'link', 'images', 'covr',
     ];
 
     public function users()

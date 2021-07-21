@@ -15,10 +15,10 @@
              </div>
              <div class="forgot-form-cont text-center siginpd-respons">
                 <div class="row">
-                   <div class="col-sm-12 p-0">                
+                   <div class="col-sm-12 p-0">
                         <div class="form-group">
                             <div class="dinline">
-                                <input id="name" type="text" class="form-control wd-309 mx-auto @error('name') is-invalid @enderror" 
+                                <input id="name" type="text" class="form-control wd-309 mx-auto @error('name') is-invalid @enderror"
                                 name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Full Name">
 
                                     @error('name')
@@ -31,7 +31,7 @@
                         </div>
                         <div class="form-group">
                             <div class="dinline">
-                                <input id="email" type="email" class="form-control wd-309 mx-auto @error('email') is-invalid @enderror" 
+                                <input id="email" type="email" class="form-control wd-309 mx-auto @error('email') is-invalid @enderror"
                                 name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Work Email Address">
 
                                     @error('email')
@@ -44,6 +44,7 @@
                         </div>
                         <div class="form-group">
                             <div class="dinline">
+                                <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 <input id="password" type="password" class="form-control wd-309 mx-auto @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Password">
 
                                     @error('password')
@@ -56,14 +57,15 @@
                         </div>
                         <div class="form-group mb-3">
                             <div class="dinline">
-                                <input type="password" class="form-control wd-309 mx-auto" name="password_confirmation" 
-                                id="exampleInputEmail12" aria-describedby="emailHelp" placeholder="Re-enter Password" required>
+                                <span toggle="#passwords" class="fa fa-fw fa-eye field-icon toggle-passwords"></span>
+                                <input type="password" class="form-control wd-309 mx-auto" name="password_confirmation"
+                                id="passwords" aria-describedby="emailHelp" placeholder="Re-enter Password" required>
                             </div>
                         </div>
                         <div class="signin-btn mb-3">
                             <a href="javascript:void(0);" type="button" class="btn btn-primary buttonClick" onclick="showStep('step2')">Continue</a>
                         </div>
-                    
+
                       <p>No credit card required. Secure site</p>
                       <h3>Already have an account? <a href="{{ route('login') }}">Sign in here</a></h3>
                    </div>
@@ -71,7 +73,7 @@
              </div>
           </div>
          @endif
-          <div class="container almost-done step2" style="  @if(empty($data['provider'])) display: none; @endif">  
+          <div class="container almost-done step2" style="  @if(empty($data['provider'])) display: none; @endif">
              <div class="row">
                 <div class="col-sm-12 p-0">
                    <h1 class="text-center dan-almost-done"> @if(!empty($data['name'])) {{$data['name']}} @else 'Hi' @endif, almost done! </h1>
@@ -84,8 +86,8 @@
                           @if(!empty($data['provider']) && (empty($data['email']) || ($data['email'] == $data['provider_id'].'noemail@gmail.com')) )
                             <div class="form-group">
                                 <div class="dinline">
-                                    <input id="email" type="email" class="form-control wd-309 mx-auto" 
-                                    name="email" value="{{ old('email') }}" required autocomplete="email" 
+                                    <input id="email" type="email" class="form-control wd-309 mx-auto"
+                                    name="email" value="{{ old('email') }}" required autocomplete="email"
                                     placeholder="Work Email Address">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
@@ -94,7 +96,7 @@
                                         @enderror
                                 </div>
                             </div>
-                          @elseif(!empty($data['email']) && ($data['email'] != $data['provider_id'].'noemail@gmail.com')) 
+                          @elseif(!empty($data['email']) && ($data['email'] != $data['provider_id'].'noemail@gmail.com'))
                           <input type="hidden" name="emaillinkedin" value="autoverify">
                           <input type="hidden" name="email" value="{{!empty($data['email']) ? $data['email'] : '' }}">
                           @endif
@@ -121,8 +123,8 @@
                                         </span>
                                     @enderror
                                 </select>
-                            </div> 
-                        </div>  
+                            </div>
+                        </div>
                         <input type="hidden" name="user_type" value="1" id="user_type">
                         <a class="left-side misc-field user_type_box activeexp" href="javascript:void(0);" onclick="userType(this,'1');">I am a Freelancer</a>
                         <a class="right-side misc-field mr-0 user_type_box" href="javascript:void(0);" onclick="userType(this,'2');">I am a Employer</a>
@@ -131,7 +133,7 @@
                                 <label class="cont">
                                     <input type="checkbox" name="checkbox" required="required" id="checkbox">
                                     <span class="checkmark"></span>
-                                </label>    
+                                </label>
                             </span>
                             <p class="text-left">
                                 By creating an account, you agree to <br><a href="https://www.therisr.com/tos">TheRisr Terms of Service</a> & <a href="https://www.therisr.com/privacy-policy">Privacy Policy. </a>
@@ -143,7 +145,7 @@
                      </div>
                    </div>
                 </div>
-             </div>  
+             </div>
           </div>
         </form>
     </div>
@@ -156,7 +158,7 @@
                $('.step1').hide();
             }else{
                $('.'+$class).show();
-               $('.step2').hide(); 
+               $('.step2').hide();
             }
         }
         function userType(thisv, $val=1){
@@ -164,7 +166,7 @@
           $(thisv).addClass('activeexp');
           $('#user_type').val($val);
         }
-     
+
         // multi select
        $('#country').select2({
            placeholder: "Select country",
@@ -175,14 +177,14 @@
 
 
 
-$(function() { 
+$(function() {
    $("form[name='registration']").validate({
     // Specify validation rules
-    rules: { 
+    rules: {
       name: "required",
       email : {
-        required : true  
-      }, 
+        required : true
+      },
       password: {
           required: true,
           maxlength: 12,
@@ -195,7 +197,7 @@ $(function() {
       checkbox: {
         required : true
       }
-    },  
+    },
     // Specify validation error messages
     messages: {
       name: "Please enter your full name.",
@@ -210,7 +212,7 @@ $(function() {
       password_confirmation:{
         required : "Please re-enter the above password",
         equalTo: "Confirm password should match with new password.",
-      } 
+      }
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid
@@ -226,6 +228,26 @@ $(function() {
      }
   });
 
+});
+    $(".toggle-passwords").click(function() {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+    input.attr("type", "text");
+    } else {
+    input.attr("type", "password");
+    }
+});
+    $(".toggle-password").click(function() {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    var input = $($(this).attr("toggle"));
+    if (input.attr("type") == "password") {
+    input.attr("type", "text");
+    } else {
+    input.attr("type", "password");
+    }
 });
 
 </script>
