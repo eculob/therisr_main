@@ -40,10 +40,10 @@ class ProjectController extends Controller
              }
           }
           if($request->hasfile('covr')){
+            $file = $request->file('covr');
             $name = $file->getClientOriginalName();
-            $filename = time() .  '-' . $name;
-            $file->move('assets/project_cover/',$filename);
-
+            $filenames = time() .  '-' . $name;
+            $file->move('assets/project_cover/',$filenames);
           }
 
           if($request->hasfile('imagesfinal')){
@@ -55,6 +55,7 @@ class ProjectController extends Controller
                     $imagesd[] = $filename;
 
             }
+            $imagesd[] = $filenames;
           }
           $imagesd = array_filter($imagesd);
 
@@ -88,9 +89,7 @@ class ProjectController extends Controller
             $input['skills'] = implode(',', $skills);
            }
 
-
             $input['images'] = implode(',', $imagesd);
-            // $input['covr'] = implode(',', $coversd);
             unset($input['_token']);
             $match_s = array(
                 'user_id' => Auth::user()->id,

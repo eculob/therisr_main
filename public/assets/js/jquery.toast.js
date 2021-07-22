@@ -10,7 +10,7 @@ if ( typeof Object.create !== 'function' ) {
 (function( $, window, document, undefined ) {
 
     "use strict";
-    
+
     var Toast = {
 
         _positionClasses : ['bottom-left', 'bottom-right', 'top-right', 'top-left', 'bottom-center', 'top-center', 'mid-center'],
@@ -40,15 +40,15 @@ if ( typeof Object.create !== 'function' ) {
         },
 
         setup: function () {
-            
+
             var _toastContent = '';
-            
+
             this._toastEl = this._toastEl || $('<div></div>', {
                 class : 'jq-toast-single'
             });
 
             // For the loader on top
-            _toastContent += '<span class="jq-toast-loader"></span>';            
+            _toastContent += '<span class="jq-toast-loader"></span>';
 
             if ( this.options.allowToastClose ) {
                 _toastContent += '<span class="close-jq-toast-single">&times;</span>';
@@ -56,9 +56,9 @@ if ( typeof Object.create !== 'function' ) {
 
             if ( this.options.text instanceof Array ) {
 
-                if ( this.options.heading ) {
-                    _toastContent +='<h2 class="jq-toast-heading">' + this.options.heading + '</h2>';
-                };
+                // if ( this.options.heading ) {
+                //     _toastContent +='<h2 class="jq-toast-heading">' + this.options.heading + '</h2>';
+                // };
 
                 _toastContent += '<ul class="jq-toast-ul">';
                 for (var i = 0; i < this.options.text.length; i++) {
@@ -67,9 +67,9 @@ if ( typeof Object.create !== 'function' ) {
                 _toastContent += '</ul>';
 
             } else {
-                if ( this.options.heading ) {
-                    _toastContent +='<h2 class="jq-toast-heading">' + this.options.heading + '</h2>';
-                };
+                // if ( this.options.heading ) {
+                //     _toastContent +='<h2 class="jq-toast-heading">' + this.options.heading + '</h2>';
+                // };
                 _toastContent += this.options.text;
             }
 
@@ -192,15 +192,15 @@ if ( typeof Object.create !== 'function' ) {
                 this._toastEl.on('click', function () {
                     that.options.onClick(that._toastEl);
                 });
-            };    
+            };
         },
 
         addToDom: function () {
 
              var _container = $('.jq-toast-wrap');
-             
+
              if ( _container.length === 0 ) {
-                
+
                 _container = $('<div></div>',{
                     class: "jq-toast-wrap",
                     role: "alert",
@@ -218,7 +218,7 @@ if ( typeof Object.create !== 'function' ) {
              _container.append( this._toastEl );
 
             if ( this.options.stack && !isNaN( parseInt( this.options.stack ), 10 ) ) {
-                
+
                 var _prevToastCount = _container.find('.jq-toast-single').length,
                     _extToastCount = _prevToastCount - this.options.stack;
 
@@ -287,7 +287,7 @@ if ( typeof Object.create !== 'function' ) {
                 var that = this;
 
                 window.setTimeout(function(){
-                    
+
                     if ( that.options.showHideTransition.toLowerCase() === 'fade' ) {
                         that._toastEl.trigger('beforeHide');
                         that._toastEl.fadeOut(function () {
@@ -324,18 +324,18 @@ if ( typeof Object.create !== 'function' ) {
             this.setup();
             this.bindToast();
         },
-        
+
         close: function() {
             this._toastEl.find('.close-jq-toast-single').click();
         }
     };
-    
+
     $.toast = function(options) {
         var toast = Object.create(Toast);
         toast.init(options, this);
 
         return {
-            
+
             reset: function ( what ) {
                 toast.reset( what );
             },
@@ -343,7 +343,7 @@ if ( typeof Object.create !== 'function' ) {
             update: function( options ) {
                 toast.update( options );
             },
-            
+
             close: function( ) {
             	toast.close( );
             }
@@ -357,7 +357,7 @@ if ( typeof Object.create !== 'function' ) {
         allowToastClose: true,
         hideAfter: 3000,
         loader: true,
-        loaderBg: '#9EC600',
+        loaderBg: '#0A8080',
         stack: 5,
         position: 'bottom-left',
         bgColor: false,

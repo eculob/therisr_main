@@ -411,19 +411,18 @@ section.upload-new-alla {
 }
 .addCoverImg {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 10px;
     z-index: 1;
     padding: 20px 31px 20px 31px;
     border: 1px dashed #ECEBEA;
     border-radius: 5px;
     float: left;
+    height: auto;
     width: 100%;
 }
 .covr-label {
-    vertical-align: middle;
+    margin-top: 0px;
     text-align: center;
-    margin-bottom: -20px;
-    padding-bottom: -20px;
 }
 .top-bar-upls ul.top-imgsa {
     padding: 0px;

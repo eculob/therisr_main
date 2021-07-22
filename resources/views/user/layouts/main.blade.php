@@ -15,6 +15,8 @@
 
     <!-- favicon icon -->
 	  <link rel="icon" type="image/x-icon" href="{{ asset('../assets/img/favicon/favicon.ico') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
 
      <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css">

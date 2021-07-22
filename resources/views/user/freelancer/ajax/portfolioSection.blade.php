@@ -20,6 +20,7 @@
             @if(count($user->userPortfolio) > 0)
             <div class="row">
                 @forelse($user->userPortfolio as $port)
+
                   <div class="col-md-4 col-sm-6">
                      <div class="box-portfoli raev-porfolio">
                         <div class="portfoli-hover">
@@ -27,8 +28,8 @@
                                                  explode(',',$port->images) : array();
                            @endphp
                            @forelse($pro_images as $key=>$img)
-                               @if ($loop->first)
-                                 <img src="{{ asset('../assets/project_images/').'/'.$img }}" class="img-alvs">
+                               @if ($loop->last)
+                                 <img src="{{ asset('../assets/project_cover/').'/'.$img }}" class="img-alvs">
                                @endif
                            @empty
                                <img src="{{ asset('../assets/img/no-image.jpg') }}" class="img-alvs">

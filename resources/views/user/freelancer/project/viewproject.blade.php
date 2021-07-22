@@ -40,8 +40,8 @@
                                 explode(',',$portfolio->images) : array();
              @endphp
              @forelse($pro_images as $key=>$img)
-                 @if ($loop->first)
-                   <img src="{{ asset('../assets/project_images/').'/'.$img }}" class="img-alvs" id="mainImage">
+                 @if ($loop->last)
+                   <img src="{{ asset('../assets/project_cover/').'/'.$img }}" class="img-alvs" id="mainImage">
                  @endif
              @empty
                  <img src="{{ asset('../assets/img/no-image.jpg') }}" class="img-alvs" id="mainImage">
@@ -53,6 +53,10 @@
             <div class="col-sm-12 p-0">
                <div class="img-area-portfolio">
                   @forelse($pro_images as $key=>$img)
+                      @if ($loop->last)
+                      <?php break;?>
+                    @endif
+
                   <img src="{{ asset('../assets/project_images/').'/'.$img }}" class="double-img" onclick="previewThis(this)">
                   @empty
                  @endforelse

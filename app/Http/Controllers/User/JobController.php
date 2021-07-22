@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Models\User, App\Models\UserProfile, App\Models\Services, App\Models\Skills, App\Models\Jobs, App\Models\JobLikeSkip, App\Models\JobReports, App\Models\JobProposals, App\Models\JobContract; 
+use App\Models\User, App\Models\UserProfile, App\Models\Services, App\Models\Skills, App\Models\Jobs, App\Models\JobLikeSkip, App\Models\JobReports, App\Models\JobProposals, App\Models\JobContract;
 use DB;
-   
+
 class JobController extends Controller
 {
     /**
@@ -28,26 +28,26 @@ class JobController extends Controller
        });
     }
 
-  
-    // alljobs 
-    function alljobs(){ 
+
+    // alljobs
+    function alljobs(){
         return view('user.freelancer.jobs.alljobs');
     }
      // freelancer my jobs
     function get_job_ajax_frlncr($page){
       DB::enableQueryLog(); // Enable query log
 
-       $sortby = !empty($_GET['sortby']) 
-                ? $_GET['sortby'] 
-                : ( ($page == 'likedjobs' || $page == 'skippedjobs') 
-                   ? 'created_at'  
+       $sortby = !empty($_GET['sortby'])
+                ? $_GET['sortby']
+                : ( ($page == 'likedjobs' || $page == 'skippedjobs')
+                   ? 'created_at'
                    : (($page == 'offerjobs') ? 'offer_sent_on' :'posted_at')  );
        $order = !empty($_GET['order']) ? $_GET['order'] : 'desc';
        $sortmain = $sortby;
-       
+
        if($sortby == 'oldest'){
-         $sortby = ($page == 'likedjobs' || $page == 'skippedjobs') 
-                   ? 'created_at'  
+         $sortby = ($page == 'likedjobs' || $page == 'skippedjobs')
+                   ? 'created_at'
                    : (($page == 'offerjobs') ? 'offer_sent_on' :'posted_at') ;
          $order = "asc";
        }
@@ -89,9 +89,9 @@ class JobController extends Controller
             $data['jobs'] = JobContract::where(array(
                             'user_to' => Auth::user()->id,
                             'contract_status' => '2'
-                            ))->orderBy($sortby, $order)->paginate($this->per_page_data);                 
+                            ))->orderBy($sortby, $order)->paginate($this->per_page_data);
           }else{
-             
+
             $myExpertise = !empty(Auth::user()->userProfile) ? Auth::user()->userProfile->services : [];
             $mySkills = !empty(Auth::user()->userProfile) ? Auth::user()->userProfile->skills : [];
               // get jobs which are not skipped
@@ -106,25 +106,25 @@ class JobController extends Controller
                   {
                     foreach ($services as $key => $value) {
                       $orwhere[] = 'FIND_IN_SET('.$value.',expertise)';
-                     } 
+                     }
                   }
                   if(!empty($skills) &&  $mySkills != '')
                   {
                     foreach ($skills as $key => $value) {
                        $orwhere[] = 'FIND_IN_SET('.$value.',skills)';
-                     } 
+                     }
                   }
                   $orwhere = implode(' or ', $orwhere);
-                 $pro_Query = $pro_Query->whereRaw('(' .$orwhere. ')'); 
+                 $pro_Query = $pro_Query->whereRaw('(' .$orwhere. ')');
               }
 
-              
+
               // the score score filter
               if(Auth::user()->therisr_score != '' && Auth::user()->therisr_score != null){
                 $pro_Query = $pro_Query
                 ->whereRaw('( therisr_score <= '.Auth::user()->therisr_score.' or therisr_score = "any")');
               }
-              
+
               $pro_Query = $pro_Query->whereNotIn('id', JobLikeSkip::select('job_id')
                                   ->where(array(
                                       'user_id' => Auth::user()->id,
@@ -144,12 +144,12 @@ class JobController extends Controller
           $data['sorting'] = array(
                           'sortby' => $sortmain,
                           'order'  => $order
-                    ); 
+                    );
           return view('user.freelancer.job_ajax.job_area_ajax')->with($data);
       }
     }
-    // get job basic part 
-    function get_jobBasicF($id){ 
+    // get job basic part
+    function get_jobBasicF($id){
         $job = Jobs::withTrashed()->find($id);
         $data['job'] = $job;
         $data['skills'] = Skills::all();
@@ -169,7 +169,7 @@ class JobController extends Controller
             $input = array(
               'skip_status' => '1'
             );
-            $done = JobLikeSkip::updateOrCreate($match_s,$input); 
+            $done = JobLikeSkip::updateOrCreate($match_s,$input);
             if ($done) {
               echo json_encode(array('code'=>200,'message'=>'Unskipped successfully!', 'id' => $job->id));
             }else{
@@ -180,29 +180,29 @@ class JobController extends Controller
             $input = array(
               'skip_status' => '2'
             );
-            $done = JobLikeSkip::updateOrCreate($match_s,$input); 
+            $done = JobLikeSkip::updateOrCreate($match_s,$input);
             if ($done) {
               echo json_encode(array('code'=>200,'message'=>'Skipped successfully!', 'id' => $job->id));
             }else{
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
         }else if($type == 'like'){
-           
+
             $input = array(
               'like_status' => '2'
             );
-            $done = JobLikeSkip::updateOrCreate($match_s,$input); 
+            $done = JobLikeSkip::updateOrCreate($match_s,$input);
             if ($done) {
               echo json_encode(array('code'=>200,'message'=>'Job Liked successfully!', 'id' => $job->id));
             }else{
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
         }else if($type == 'unlike'){
-            
+
             $input = array(
               'like_status' => '1'
             );
-            $done = JobLikeSkip::updateOrCreate($match_s,$input); 
+            $done = JobLikeSkip::updateOrCreate($match_s,$input);
             if ($done) {
               echo json_encode(array('code'=>200,'message'=>'Job unliked successfully!', 'id' => $job->id));
             }else{
@@ -216,12 +216,12 @@ class JobController extends Controller
     // job report submit
     function job_report(Request $request)
     {
-        $input = $request->all(); 
+        $input = $request->all();
         $match_s = array(
                 'user_id' => Auth::user()->id,
                 'job_id'  => $input['job_id']
         );
-        $done = JobReports::updateOrCreate($match_s,$input); 
+        $done = JobReports::updateOrCreate($match_s,$input);
         if ($done) {
           echo json_encode(array('code'=>200,'message'=>'Job report submitted successfully!', 'id' => $input['job_id']));
         }else{
@@ -229,7 +229,7 @@ class JobController extends Controller
         }
     }
 
-    
+
 
 
     // jobdetail page
@@ -261,7 +261,7 @@ class JobController extends Controller
         return view('user.employer.jobs.myjobs');
     }
     // emp my jobs
-    function get_job_area_ajax($page){ 
+    function get_job_area_ajax($page){
         $sortby = !empty($_GET['sortby']) ? $_GET['sortby'] : 'posted_at';
         $order = !empty($_GET['order']) ? $_GET['order'] : 'desc';
         $sortmain = $sortby;
@@ -287,7 +287,7 @@ class JobController extends Controller
                             'user_by' => Auth::user()->id,
                             'contract_status' => '2'
                             ))->orderBy($sortby, $order)
-                            ->paginate($this->per_page_data);    
+                            ->paginate($this->per_page_data);
         }else{
           $data['jobs'] = Jobs::withCount('jobProposals')
                            ->where(array(
@@ -302,7 +302,7 @@ class JobController extends Controller
         $data['sorting'] = array(
                           'sortby' => $sortmain,
                           'order'  => $order
-                    ); 
+                    );
         return view('user.employer.jobs.job_details.job_area_ajax')->with($data);
     }
 
@@ -318,8 +318,8 @@ class JobController extends Controller
                // echo "<pre>";
                 //print_r($_POST);
               // if the job title is empty then set the default one
-              // $input['job_title'] = (trim(@$input['job_title']) == '') 
-              //                       ? '' 
+              // $input['job_title'] = (trim(@$input['job_title']) == '')
+              //                       ? ''
               //                       : trim(@$input['job_title']);
 
                 // services create new if not exist
@@ -380,8 +380,8 @@ class JobController extends Controller
                     'user_id' => Auth::user()->id,
                     'id'      => !empty($input['jobId']) ? $input['jobId'] : 0
                 );
-                $job = Jobs::updateOrCreate($match_s,$input); 
-             
+                $job = Jobs::updateOrCreate($match_s,$input);
+
                 // notificaton sent to matching users
                 if($job->job_status == '2'){
                    self::notificatonToMatchingUsers($job);
@@ -398,7 +398,7 @@ class JobController extends Controller
                     'message'=>'Nothing to save!'
                 ));
             }
-        }else{ 
+        }else{
            $data['skills'] = Skills::all();
            $data['services'] = Services::all();
            return view('user.employer.jobs.postjob')->with($data);
@@ -409,7 +409,7 @@ class JobController extends Controller
 
         $users_result = User::where(array('status'=> '1', 'user_type' => '1'));
 
-        $services_query = UserProfile::select('user_id'); 
+        $services_query = UserProfile::select('user_id');
             $orwhere = [];
             $services = explode(',', $request->expertise);
             $skills = explode(',', $request->skills);
@@ -419,16 +419,16 @@ class JobController extends Controller
                 {
                   foreach ($services as $key => $value) {
                     $orwhere[] = 'FIND_IN_SET('.$value.',services)';
-                  } 
+                  }
                 }
                 if(!empty($skills))
                 {
                   foreach ($skills as $key => $value) {
                      $orwhere[] = 'FIND_IN_SET('.$value.',skills)';
-                  } 
+                  }
                 }
               $orwhere = implode(' or ', $orwhere);
-              $services_query = $services_query->whereRaw('(' .$orwhere. ')'); 
+              $services_query = $services_query->whereRaw('(' .$orwhere. ')');
             }
           $services_query = $services_query->get();
           $users_result = $users_result->whereIn('id', $services_query);
@@ -443,7 +443,7 @@ class JobController extends Controller
 
    // show edit job page (this is same page which we used for add job)
     function editjob($jobId){
-      try { 
+      try {
         $jobId = decryptUrlId($jobId);
         $data['job'] = Jobs::findOrFail($jobId);
         $data['skills'] = Skills::all();
@@ -454,7 +454,7 @@ class JobController extends Controller
         return redirect(url()->previous());
       }
     }
- 
+
    // show draft jobs listing
     function draftjobs(){
         return view('user.employer.jobs.draft_jobs');
@@ -465,7 +465,7 @@ class JobController extends Controller
         return view('user.employer.jobs.archived_jobs');
     }
 
-    // get job basic part 
+    // get job basic part
     function get_jobBasic($id){
         $job = Jobs::withTrashed()->find($id);
         $data['job'] = $job;
@@ -496,11 +496,11 @@ class JobController extends Controller
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
         }else if($type == 'complete_delete'){
-          // delete related proposals   
+          // delete related proposals
           $job->jobProposals()->delete();
           $job->jobProposals()->forceDelete();
 
-          // delete related contracts   
+          // delete related contracts
           $job->jobContracts()->delete();
           $job->jobContracts()->forceDelete();
 
@@ -511,20 +511,20 @@ class JobController extends Controller
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
         }else if($type == 'pause'){
-           
+
             $job->job_status = '4';
             $job->save(); //save status
             if ($job->wasChanged()) {
-              echo json_encode(array('code'=>200,'message'=>'Job Paused successfully!', 'action' => 'pause'));
+              echo json_encode(array('code'=>200,'message'=>'Your job now is paused.', 'action' => 'pause'));
             }else{
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
         }else if($type == 'active'){
-            
+
             $job->job_status = '2';
             $job->save(); //save status
             if ($job->wasChanged()) {
-              echo json_encode(array('code'=>200,'message'=>'Job Activated successfully!', 'action' => 'active'));
+              echo json_encode(array('code'=>200,'message'=>'Your job now is active.', 'action' => 'active'));
             }else{
              echo json_encode(array('code'=>500,'message'=>'Oops! Something wrong.'));
             }
@@ -532,7 +532,7 @@ class JobController extends Controller
 
         }
     }
-   
+
 
    //view job
   function job($jid){
@@ -543,7 +543,7 @@ class JobController extends Controller
           }else{
             $jobId = decryptUrlId($jid);
             $data['job'] = Jobs::findOrFail($jobId);
-          } 
+          }
             $data['skills'] = Skills::all();
             $data['services'] = Services::all();
             $user = User::find(Auth::user()->id);

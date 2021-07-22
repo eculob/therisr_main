@@ -33,19 +33,24 @@
 								<p> or <span> browse </span> to choose a file </p>
 								<small> (400 x 300 or larger recommeded, up to 5MB each) </small>
 								<input type="file" multiple="multiple" name="images[]" id="img-str"
-								 style="width:0px; height:0px; opacity:0; visibility:hidden;" />
+								 style="width:0px; height:0px; opacity:0; visibility:hidden;"/>
 							</label>
+
 						</div>
 						<div>
 							<ul class="uploaded-imgs">
 							</ul>
 						</div>
+
 						<div class="addCoverImg">
 							<label class="covr-label">
+								<img src="{{ asset('../assets/img/upload.svg')}}" width="25px" hieght="25px">
+								<input type="file" multiple="multiple" name="covr" id="covr"
+									style="width:0px; height:0px; opacity:0;" onchange="loadfile(event)"/>
 								<h4> Add Cover Image </h4>
+								<img id="outputs"/>
 							</label>
-							<input type="file" multiple="multiple" name="covr" id="covr"
-								 style="width:0px; height:0px; opacity:0; visibility:hidden;" />
+
 						</div>
 					</div>
 					<div class="col-md-5">
@@ -122,6 +127,10 @@
 
 @section('footer')
 <script>
+	function loadfile(event) {
+		var output = document.getElementById('outputs');
+		output.src = URL.createObjectURL(event.target.files[0]);
+	};
 	var queue = [];
            // multi select
        $('#skills').select2({
