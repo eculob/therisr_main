@@ -13,13 +13,11 @@
                   <div class="col-md-4 col-sm-6">
                      <div class="box-portfoli raev-porfolio">
                         <div class="portfoli-hover">
-                           @php  $pro_images =  !empty($port->covr ) ?
-                                                 explode(',',$port->covr) : array();
+
+                           @php  $pro_images =  $port->images
                            @endphp
                            @forelse($pro_images as $key=>$img)
-                               @if ($loop->first)
-                                 <img src="{{ asset('../assets/project_images/').'/'.$img }}" class="img-alvs">
-                               @endif
+                              <img src="{{ asset('../assets/project_cover/').'/'.$img }}" class="img-alvs">
                            @empty
                                <img src="{{ asset('../assets/img/no-image.jpg') }}" class="img-alvs">
                            @endforelse
