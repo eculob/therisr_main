@@ -41,7 +41,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-   
+
 
      public function showRegistrationForm()
     {
@@ -83,11 +83,11 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'user_type' => isset($data['user_type']) ? trim($data['user_type']) : '1',
             'country' => isset($data['country']) ? trim($data['country']) : null
-            
+
         );
         if(!empty($data['provider'])){
-            $user['email_verified_at'] = (@$data['emaillinkedin'] == 'autoverify' )  
-                                          ? date('Y-m-d H:i:s') : ''; 
+            $user['email_verified_at'] = (@$data['emaillinkedin'] == 'autoverify' )
+                                          ? date('Y-m-d H:i:s') : '';
             $user['provider'] = $data['provider'];
             $user['provider_id'] = $data['provider_id'];
             $user['password'] = Hash::make($data['password']);

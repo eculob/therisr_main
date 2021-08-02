@@ -54,7 +54,7 @@
                <div class="img-area-portfolio">
                   @forelse($pro_images as $key=>$img)
                       @if ($loop->last)
-                      <?php break;?>
+                      <?php return false; ?>
                     @endif
 
                   <img src="{{ asset('../assets/project_images/').'/'.$img }}" class="double-img" onclick="previewThis(this)">

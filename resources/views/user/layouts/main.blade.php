@@ -137,6 +137,13 @@
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
               </button>
+              @if($user->user_type == '2')
+
+              @else
+              <div class="timer">
+                <p id="cooldown"></p>
+              </div>
+              @endif
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                  <ul class="navbar-nav mr-auto">
 
@@ -150,14 +157,24 @@
                         href="{{ route('user.allcontracts') }}">Contracts</a>
                     </li>
                     @else
-                    <li class="nav-item {{ (Route::current()->getName() == 'user.alljobs') ? 'active' : '' }}">
-                       <a class="nav-link"
-                        href="{{ route('user.alljobs') }}">All Jobs </a>
-                    </li>
-                     <li class="nav-item {{ (Route::current()->getName() == 'user.myjobs') ? 'active' : '' }}">
-                       <a class="nav-link"
-                        href="{{ route('user.myjobs') }}">My Jobs</a>
-                    </li>
+                      @if($user->user_type == '2')
+                        <li class="nav-item {{ (Route::current()->getName() == 'user.alljobs') ? 'active' : '' }}">
+                          <a class="nav-link invalid">All Jobs </a>
+                        </li>
+
+                          <a class="nav-link invalid">My Jobs</a>
+                        </li>
+                      @else
+                        <li class="nav-item {{ (Route::current()->getName() == 'user.alljobs') ? 'active' : '' }}">
+                          <a class="nav-link"
+                            href="{{ route('user.alljobs') }}">All Jobs </a>
+                        </li>
+
+                        <li class="nav-item {{ (Route::current()->getName() == 'user.myjobs') ? 'active' : '' }}">
+                          <a class="nav-link"
+                            href="{{ route('user.myjobs') }}">My Jobs</a>
+                        </li>
+                        @endif
                     @endif
                     @if($user->user_type == '2')
                       <li class="nav-item {{ (Route::current()->getName() == 'user.myfreelancer') ? 'active' : '' }}">
@@ -285,7 +302,34 @@
       source: availableTags
     });
     } );
+    // Set the date we're counting down to
+    var countDownDate = new Date().getTime();
+    var nextday = new Date(countDownDate+86400000);
 
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+      // Get today's date and time
+      var now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      var distance = nextday - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the element with id="cooldown"
+      document.getElementById("cooldown").innerHTML = hours + "h "
+      + minutes + "m " + seconds + "s ";
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("cooldown").innerHTML = "EXPIRED";
+      }
+    }, 1000);
 
 
      function showScreenLoader(msg = null)

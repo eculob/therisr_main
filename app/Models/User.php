@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email','username', 'password', 'image', 'status', 'user_type', 'country', 'therisr_score', 'notifications', 'provider' , 'provider_id', 'setpassword', 'stripe_customer_id'
+        'name', 'email','username', 'password', 'image', 'status', 'user_type', 'country', 'therisr_score', 'notifications', 'provider' , 'provider_id', 'setpassword', 'stripe_customer_id', 'cooldown_time'
     ];
 
     /**
@@ -42,7 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
- 
+
 
 
     public function myFreelancer(){
@@ -50,43 +50,43 @@ class User extends Authenticatable implements MustVerifyEmail
                     ->where(array('user_id' => Auth::user()->id));
     }
     public function countryName()
-    { 
+    {
         return $this->hasOne('App\Models\Countries','id','country');
     }
 
 
     public function userProfile()
-    { 
+    {
         return $this->hasOne('App\Models\UserProfile','user_id','id');
     }
-    
+
     public function userEmpProfile()
-    { 
+    {
         return $this->hasOne('App\Models\UserEmpProfile','user_id','id');
     }
 
     public function userWorkExp()
-    { 
+    {
         return $this->hasMany('App\Models\UserWorkExp','user_id','id');
     }
 
     public function userEducation()
-    { 
+    {
         return $this->hasMany('App\Models\UserEducation','user_id','id');
     }
 
     public function userSocialLinks()
-    { 
+    {
         return $this->hasOne('App\Models\UserSocialLinks','user_id','id');
     }
 
      public function userPortfolio()
-    { 
+    {
         return $this->hasMany('App\Models\UserPortfolio','user_id','id');
     }
 
      public function userAvailable()
-    { 
+    {
         return $this->hasOne('App\Models\UserAvailable','user_id','id');
     }
 
