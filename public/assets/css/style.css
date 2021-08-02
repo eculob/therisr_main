@@ -23,6 +23,21 @@ h1{font-family: 'Zilla Slab', serif;}
 	font-size: 16px;
 	font-weight: 500 !important;
 }
+#cooldown {
+    width: 300px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #0A8080;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+}
+.nav-item .invalid {
+    opacity: .2;
+}
 
 .pointer{
     cursor: pointer;
@@ -2499,7 +2514,6 @@ position: absolute;
     display: flex;
     align-items: center;
     flex-direction: row;
-    margin-right:;
 }
 .nameTitle span.freelanrate i{
     color: var(--main-color);

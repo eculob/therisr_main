@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
             $table->string('stripe_customer_id')->nullable();
+            $table->string('cooldown_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
